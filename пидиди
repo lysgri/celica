@@ -1,3 +1,23 @@
+$email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL); // Validate email format
+$username = filter_var($_POST['login'], FILTER_SANITIZE_STRING); // Sanitize username
+
+if ($email === false || empty($username)) {
+    // Handle invalid input – Display an appropriate error message to the user.
+    die("Invalid email or username.");
+}
+
+$sql = "SELECT * FROM users WHERE email = :email AND username = :username";
+$stmt = $pdo->prepare($sql);
+
+try {
+    $stmt->execute([':email' => $email, ':username' => $username]);
+    // ...rest of your code to handle the result...
+} catch (PDOException $e) {
+    // Log the error, do NOT display the full error message to the user!
+    error_log("Database error: " . $e->getMessage());
+    die("An error occurred. Please try again later.");
+}
+
 okddsjdkdk
 щвоащшщмаг7пп79нпи97АП
 (м5кеаппппппппппппппппппппп785
